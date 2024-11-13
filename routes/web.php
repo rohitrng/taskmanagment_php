@@ -32,7 +32,7 @@ use App\Http\Controllers\Refundvoucher;
 use App\Http\Controllers\FeestypemasterController;
 use App\Http\Controllers\BusfeesmasterController;
 use App\Http\Controllers\backend\InquiryEntryController;
-use App\Http\Controllers\backend\ResumeController;
+use App\Http\Controllers\backend\LoginApiController;
 use App\Http\Controllers\backend\BusstopController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\backend\MasterRegistrationController;
@@ -172,12 +172,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('admin-dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
     
     // resumeController
-    Route::get('resume-list', [ResumeController::class,'resume_list'])->name('resume-list');
-    Route::post('/update-candidate-status', [ResumeController::class, 'updateCandidateStatus'])->name('update-candidate-status');
-    Route::get('candidate-onboarding', [ResumeController::class, 'candidate_onboarding'])->name('candidate-onboarding');
-    Route::post('save_candidate_details', [ResumeController::class, 'save_candidate_details'])->name('save_candidate_details');
-    Route::get('candidate-onboarding-list', [ResumeController::class, 'candidate_onboarding_list'])->name('candidate-onboarding-list');
-    Route::get('onboarding-single-page/{id}', [ResumeController::class, 'onboarding_single_page'])->name('onboarding-single-page');
+    Route::get('resume-list', [LoginApiController::class,'resume_list'])->name('resume-list');
+    Route::post('login_api_t', [LoginApiController::class, 'login_api_t'])->name('login_api_t');
+    Route::get('onboarding-single-page/{id}', [LoginApiController::class, 'onboarding_single_page'])->name('onboarding-single-page');
 
     Route::get('/Dashboard ',[RegistrationController::class, 'dashboard'])->name('dashboard');
     Route::get('/mcq ',[McqController::class, 'index'])->name('mcq');

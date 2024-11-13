@@ -64,12 +64,14 @@ class LoginapiController extends Controller
             // Return a JSON response if the password is incorrect
             return response()->json(['error' => 'Invalid credentials'], 401);
         }
+        
         $users = [
             'id'=>$user->id,
             'number'=>$user->number,
             'email'=>$user->email,
             'created_at'=>$user->created_at,
         ];
+
         return response()->json([
             'success' => true,
             'message' => 'Login successful',

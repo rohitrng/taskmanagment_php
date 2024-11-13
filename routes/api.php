@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LoginapiController;
-
+use App\Http\Controllers\Api\EmployeeapiController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 // Route::post('register', [LoginapiController::class, 'register']);
 Route::post('login', [LoginapiController::class, 'login']);
-
-
+Route::post('employeeform', [EmployeeapiController::class, 'employeeform']);
+Route::get('getemp_id', [EmployeeapiController::class, 'getemp_id']);
