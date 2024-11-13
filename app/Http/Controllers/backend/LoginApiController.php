@@ -24,7 +24,7 @@ use DataTables;
 use Illuminate\Support\Facades\Auth;
 
 
-class ResumeController extends Controller
+class LoginApiController extends Controller
 {
     protected $userId;
 
@@ -36,45 +36,32 @@ class ResumeController extends Controller
         });
     }
 
-    public function save_class_name()
-    {
-        $datas = DB::connection('dynamic')->table('classes')->select('class_name')->distinct()->get();
-        // print_r($data['duachart1']);die();
-        return view('backend.FeesDue-chart.preinquiryregistration.blade', compact('datas'));
+    public function login_api_t(Request $request){
+    $request->validate([
+        'number' => 'required',
+        'password' => 'required'
+    ]);
+
+    $user = DB::connection('dynamic')->table('users')
+        ->where('id', $request->number)
+        ->first();
+
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
     }
 
-    public function save_resume_inq(Request $request){
-
-        $request->validate([
-            'candidate_name' => 'required|string|max:255',
-            'candidate_mobile' => 'required|string|max:15',
-            'candidate_email' => 'required|email|max:255',
-            'candidate_resume' => 'required|mimes:pdf|max:2048',  // Ensure it's a PDF file with max size of 2MB
-        ]);
-    
-        // Handle the resume upload
-        if ($request->hasFile('candidate_resume')) {
-            // Store the file directly in the 'public/resumes' directory
-            $filePath = $request->file('candidate_resume')->move(public_path('resumes'), $request->file('candidate_resume')->getClientOriginalName());
-        }
-    
-        // Insert the data into the database
-        $insertArr = [
-            'candidate_name' => $request->candidate_name,
-            'candidate_mobile' => $request->candidate_mobile,
-            'candidate_email' => $request->candidate_email,
-            'candidate_status' => 'p',
-            'candidate_profile' => $request->c_profile,
-            'user_id' => $this->userId,
-            'candidate_resume' => 'resumes/' . $request->file('candidate_resume')->getClientOriginalName(),  // Save the file path
-        ];
-
-        DB::connection('dynamic')->table('candidate_resume')->insert($insertArr);
-    
-        // Redirect back with success message
-        return redirect('admin-dashboard')
-                        ->with('success', 'Record inserted successfully');
+    if (!Hash::check($request->password, $user->password)) {
+        // Return a JSON response if the password is incorrect
+        return response()->json(['error' => 'Invalid credentials'], 401);
     }
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Login successful',
+        'user' => $user // You may want to exclude sensitive fields like password
+    ], 200);
+}
+
 
     public function resume_list(){
         // Check if the user has the 'Admin' role
