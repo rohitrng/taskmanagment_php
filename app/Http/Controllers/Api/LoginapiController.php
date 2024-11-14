@@ -16,7 +16,7 @@ class LoginapiController extends Controller
         // Validate request data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:tm_employee',
             'password' => 'required|string|min:8',
         ]);
 
@@ -52,8 +52,8 @@ class LoginapiController extends Controller
         }
 
         // Find the user by number
-        $user = DB::connection('dynamic')->table('users')
-        ->where('number', $request->number)
+        $user = DB::connection('dynamic')->table('tm_employee')
+        ->where('emp_contact_number', $request->number)
         ->first();
 
         if (!$user) {
@@ -67,8 +67,8 @@ class LoginapiController extends Controller
         
         $users = [
             'id'=>$user->id,
-            'number'=>$user->number,
-            'email'=>$user->email,
+            'number'=>$user->emp_contact_number,
+            'email'=>$user->emp_email,
             'created_at'=>$user->created_at,
         ];
 

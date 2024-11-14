@@ -25,3 +25,5 @@ Route::post('login', [LoginapiController::class, 'login']);
 Route::post('employeeform', [EmployeeapiController::class, 'employeeform']);
 Route::get('getemp_id', [EmployeeapiController::class, 'getemp_id']);
 Route::post('taskform',[TaskapiController::class, 'taskform']);
+Route::get('getemp_list', [EmployeeapiController::class, 'getemp_list']);
+Route::get('getemp_list_full', [EmployeeapiController::class, 'getemp_list_full']);
