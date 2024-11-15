@@ -27,3 +27,4 @@ Route::get('getemp_id', [EmployeeapiController::class, 'getemp_id']);
 Route::post('taskform',[TaskapiController::class, 'taskform']);
 Route::get('getemp_list', [EmployeeapiController::class, 'getemp_list']);
 Route::get('getemp_list_full', [EmployeeapiController::class, 'getemp_list_full']);
+Route::get('gettask_list', [TaskapiController::class, 'gettask_list']);

@@ -34,6 +34,44 @@ class TaskapiController extends Controller{
             ], 404);
         }
     }
+
+    public function gettask_list(){
+        $datas = DB::connection('dynamic')
+        ->table('tm_tasks')
+        ->select('tm_tasks.task_name','tm_tasks.id','tm_tasks.task_assigned_to','tm_tasks.task_deadline')
+        ->get();
+        foreach($datas  as  $val) {
+            $arr = explode("-",$val->task_assigned_to);
+            $new_arr = [];
+            foreach($arr as $ida){
+                $data = DB::connection('dynamic')
+                ->table('tm_employee')
+                ->select('tm_employee.emp_photo as emp_photo')
+                ->where('id','=',$ida)
+                ->first();
+                $domainName = $_SERVER['HTTP_HOST'];
+                if ($data){
+                    $new_arr[$ida] = $domainName."/".$data->emp_photo;
+                } else {
+                    $new_arr[$ida] = null;
+
+                }
+            }
+            $val->photo = $new_arr;
+        }
+        if ($datas){
+            
+            return response()->json([
+                'success' => true,
+                'message' => $datas,
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to employee',
+            ], 404);
+        }
+    }
 }
 
 ?>
