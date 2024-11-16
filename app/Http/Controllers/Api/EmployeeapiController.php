@@ -107,7 +107,7 @@ class EmployeeapiController extends Controller{
         ->join('model_has_roles', 'tm_employee.emp_contact_number', '=', 'model_has_roles.model_id')
         ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
         ->where('roles.name','!=','Admin')
-        ->select('tm_employee.emp_name','tm_employee.emp_id','tm_employee.emp_contact_number','tm_employee.emp_email','tm_employee.emp_date_of_join','tm_employee.emp_photo', 'roles.name as role_name')
+        ->select('tm_employee.id','tm_employee.emp_name','tm_employee.emp_id','tm_employee.emp_contact_number','tm_employee.emp_email','tm_employee.emp_date_of_join','tm_employee.emp_photo', 'roles.name as role_name')
         ->get();
         // emp_name, emp_id, emp_contact_number, emp_email, emp_date_of_join, photo
         if ($datas){
@@ -121,5 +121,13 @@ class EmployeeapiController extends Controller{
                 'message' => 'Failed to employee',
             ], 404);
         }
+    }
+
+    public function deleteemp($id){
+        DB::table('tm_employee')->where('id', $id)->delete();
+        return response()->json([
+            'success' => true,
+            'message' => "Deleted successfuly",
+        ], 200);
     }
 }

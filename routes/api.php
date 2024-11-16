@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LoginapiController;
 use App\Http\Controllers\Api\EmployeeapiController;
 use App\Http\Controllers\Api\TaskapiController;
+use App\Http\Controllers\Api\ProjectapiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,3 +29,5 @@ Route::post('taskform',[TaskapiController::class, 'taskform']);
 Route::get('getemp_list', [EmployeeapiController::class, 'getemp_list']);
 Route::get('getemp_list_full', [EmployeeapiController::class, 'getemp_list_full']);
 Route::get('gettask_list', [TaskapiController::class, 'gettask_list']);
+Route::post('projectform', [ProjectapiController::class, 'projectform']);
+Route::get('deleteemp/{id}', [EmployeeapiController::class, 'deleteemp']);
