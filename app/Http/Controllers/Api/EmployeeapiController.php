@@ -107,6 +107,7 @@ class EmployeeapiController extends Controller{
         ->join('model_has_roles', 'tm_employee.emp_contact_number', '=', 'model_has_roles.model_id')
         ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
         ->where('roles.name','!=','Admin')
+        ->where('tm_employee.is_delete','=',0)
         ->select('tm_employee.id','tm_employee.emp_name','tm_employee.emp_id','tm_employee.emp_contact_number','tm_employee.emp_email','tm_employee.emp_date_of_join','tm_employee.emp_photo', 'roles.name as role_name')
         ->get();
         // emp_name, emp_id, emp_contact_number, emp_email, emp_date_of_join, photo
@@ -124,7 +125,9 @@ class EmployeeapiController extends Controller{
     }
 
     public function deleteemp($id){
-        DB::table('tm_employee')->where('id', $id)->delete();
+        DB::table('tm_project')
+        ->where('id', $id)
+        ->update(['is_delete' => 1]);
         return response()->json([
             'success' => true,
             'message' => "Deleted successfuly",

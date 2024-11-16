@@ -72,6 +72,16 @@ class TaskapiController extends Controller{
             ], 404);
         }
     }
+
+    public function task_delete($id){
+        DB::table('tm_tasks')
+        ->where('id', $id)
+        ->update(['is_delete' => 1]);    
+        return response()->json([
+            'success' => true,
+            'message' => "Deleted successfuly",
+        ], 200);
+    }
 }
 
 ?>

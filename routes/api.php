@@ -23,11 +23,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 // Route::post('register', [LoginapiController::class, 'register']);
 Route::post('login', [LoginapiController::class, 'login']);
+// EmployeeapiController
 Route::post('employeeform', [EmployeeapiController::class, 'employeeform']);
 Route::get('getemp_id', [EmployeeapiController::class, 'getemp_id']);
-Route::post('taskform',[TaskapiController::class, 'taskform']);
 Route::get('getemp_list', [EmployeeapiController::class, 'getemp_list']);
 Route::get('getemp_list_full', [EmployeeapiController::class, 'getemp_list_full']);
-Route::get('gettask_list', [TaskapiController::class, 'gettask_list']);
-Route::post('projectform', [ProjectapiController::class, 'projectform']);
 Route::get('deleteemp/{id}', [EmployeeapiController::class, 'deleteemp']);
+
+// TaskapiController
+Route::post('taskform',[TaskapiController::class, 'taskform']);
+Route::get('gettask_list', [TaskapiController::class, 'gettask_list']);
+Route::get('task_delete', [TaskapiController::class, 'task_delete']);
+
+// ProjectapiController
+Route::post('projectform', [ProjectapiController::class, 'projectform']);
+Route::get('project_list/{id}', [ProjectapiController::class, 'project_list']);
+Route::get('project_delete/{id}', [ProjectapiController::class, 'project_delete']);
