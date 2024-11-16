@@ -29,6 +29,9 @@ Route::get('getemp_id', [EmployeeapiController::class, 'getemp_id']);
 Route::get('getemp_list', [EmployeeapiController::class, 'getemp_list']);
 Route::get('getemp_list_full', [EmployeeapiController::class, 'getemp_list_full']);
 Route::get('deleteemp/{id}', [EmployeeapiController::class, 'deleteemp']);
+Route::get('get_emp_single/{id}', [EmployeeapiController::class, 'get_emp_single']);
+// Route::post('update_employee', [EmployeeapiController::class, 'update_employee']);
+Route::put('update_employee', [EmployeeapiController::class, 'update_employee']);
 
 // TaskapiController
 Route::post('taskform',[TaskapiController::class, 'taskform']);

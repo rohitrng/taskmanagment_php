@@ -125,12 +125,91 @@ class EmployeeapiController extends Controller{
     }
 
     public function deleteemp($id){
-        DB::table('tm_project')
+        DB::table('tm_employee')
         ->where('id', $id)
         ->update(['is_delete' => 1]);
         return response()->json([
             'success' => true,
             'message' => "Deleted successfuly",
         ], 200);
+    }
+    
+    public function get_emp_single($id){
+        $datas = DB::connection('dynamic')
+            ->table('tm_employee')
+            ->where('id','=',$id)
+            ->select('id','emp_name','emp_department','emp_designation','emp_contact_number','emp_email','emp_manager','emp_hourly','emp_user_id')
+            ->get();
+
+        if ($datas){
+            return response()->json([
+                'success' => true,
+                'message' => $datas,
+            ], 200);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to employee',
+            ], 404);
+        }
+    }
+
+    public function update_employee(request $request){
+        $updateData = [];
+        if (!empty($request->emp_name)) {
+            $updateData['emp_name'] = $request->emp_name;
+        }
+        if (!empty($request->emp_department)) {
+            $updateData['emp_department'] = $request->emp_department;
+        }
+        if (!empty($request->emp_designation)) {
+            $updateData['emp_designation'] = $request->emp_designation;
+        }
+        if (!empty($request->emp_contact_number)) {
+            $updateData['emp_contact_number'] = $request->emp_contact_number;
+        }
+        if (!empty($request->emp_email)) {
+            $updateData['emp_email'] = $request->emp_email;
+        }
+        if (!empty($request->emp_date_of_join)) {
+            $updateData['emp_date_of_join'] = $request->emp_date_of_join;
+        }
+        if (!empty($request->emp_manager)) {
+            $updateData['emp_manager'] = $request->emp_manager;
+        }
+        if (!empty($request->emp_hourly)) {
+            $updateData['emp_hourly'] = $request->emp_hourly;
+        }
+        if (!empty($request->emp_hourly)) {
+            $updateData['emp_user_id'] = $request->emp_user_id;
+        }
+        $check = DB::table('tm_employee')
+            ->where('id', $request->id)
+            ->first();
+        if (!empty($check)){
+            
+            if (!empty($updateData)) {
+                $update = DB::table('tm_employee')
+                    ->where('id', $request->id)
+                    ->update($updateData);
+            }
+    
+            if ($update){
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Update employee successful',
+                ], 200);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to add employee',
+                ], 404);
+            }
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'employee not found',
+            ], 404);
+        }
     }
 }
